@@ -1,18 +1,3 @@
-/**
- * Copyright 2017 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
  package com.google.firebase.example.fireeats;
 
 import android.arch.lifecycle.ViewModelProviders;
@@ -73,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements
     RecyclerView mRestaurantsRecycler;
 
     @BindView(R.id.view_empty)
-    ViewGroup mEmptyView;;
+    ViewGroup mEmptyView;
 
     private FirebaseFirestore mFirestore;
     private Query mQuery;
@@ -109,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get the 50 highest rated restaurants
-        mQuery = mFirestore.collection("restaurants")
-                .orderBy("avgRating", Query.Direction.DESCENDING)
+        mQuery = mFirestore.collection("365football_test").document("Ekmi7j5Cx5UG1oOTtWv3").collection("leagues")
+                .orderBy("name", Query.Direction.ASCENDING)
                 .limit(LIMIT);
+
+//        mQuery = mFirestore.collection("365football_test").document("Ekmi7j5Cx5UG1oOTtWv3").collection("leagues");
     }
 
     private void initRecyclerView() {
@@ -188,32 +175,32 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFilter(Filters filters) {
        // Construct query basic query
-        Query query = mFirestore.collection("restaurants");
-
-        // Cateogory (equality filter)
-        if(filters.hasCategory()){
-            query = query.whereEqualTo("category",filters.getCategory());
-        }
-
-        if(filters.hasCity()){
-            query = query.whereEqualTo("city",filters.getCity());
-        }
-
-        if(filters.hasPrice()){
-            query = query.whereEqualTo("price",filters.getPrice());
-        }
-
-        // Sort by (orderBy with direction)
-        if(filters.hasSortBy()){
-            query = query.orderBy(filters.getSortBy(), filters.getSortDirection());
-        }
-
-        // Limit items
-        query = query.limit(LIMIT);
-
-        // Update the query
-        mQuery = query;
-        mAdapter.setQuery(query);
+//        Query query = mFirestore.collection("restaurants");
+//
+//        // Cateogory (equality filter)
+//        if(filters.hasCategory()){
+//            query = query.whereEqualTo("category",filters.getCategory());
+//        }
+//
+//        if(filters.hasCity()){
+//            query = query.whereEqualTo("city",filters.getCity());
+//        }
+//
+//        if(filters.hasPrice()){
+//            query = query.whereEqualTo("price",filters.getPrice());
+//        }
+//
+//        // Sort by (orderBy with direction)
+//        if(filters.hasSortBy()){
+//            query = query.orderBy(filters.getSortBy(), filters.getSortDirection());
+//        }
+//
+//        // Limit items
+//        query = query.limit(LIMIT);
+//
+//        // Update the query
+//        mQuery = query;
+//        mAdapter.setQuery(query);
 
         // Set header
         mCurrentSearchView.setText(Html.fromHtml(filters.getSearchDescription(this)));
