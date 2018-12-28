@@ -1,4 +1,4 @@
- package com.google.firebase.example.fireeats;
+package com.google.firebase.example.fireeats;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -15,15 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.example.fireeats.adapter.RestaurantAdapter;
-import com.google.firebase.example.fireeats.model.Restaurant;
-import com.google.firebase.example.fireeats.util.RestaurantUtil;
-import com.google.firebase.example.fireeats.viewmodel.MainActivityViewModel;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.example.fireeats.match.ActivityMatches;
+import com.google.firebase.example.fireeats.viewmodel.FilterViewModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -38,7 +35,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements
         FilterDialogFragment.FilterListener,
         RestaurantAdapter.OnRestaurantSelectedListener {
-
+    public static final String KEY_LEAGUE_ID = "KEY_LEAGUE_ID";
     private static final String TAG = "MainActivity";
 
     private static final int RC_SIGN_IN = 9001;
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements
     private FilterDialogFragment mFilterDialog;
     private RestaurantAdapter mAdapter;
 
-    private MainActivityViewModel mViewModel;
+    private FilterViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +72,9 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
+        setTitle("Leagues");
         // View model
-        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(FilterViewModel.class);
 
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
@@ -161,20 +159,20 @@ public class MainActivity extends AppCompatActivity implements
 
     private void onAddItemsClicked() {
         // Get a reference to the restaurants collection
-        CollectionReference restaurants = mFirestore.collection("restaurants");
-
-        for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            Restaurant restaurant = RestaurantUtil.getRandom(this);
-
-            // Add a new document to the restaurants collection
-            restaurants.add(restaurant);
-        }
+//        CollectionReference restaurants = mFirestore.collection("restaurants");
+//
+//        for (int i = 0; i < 10; i++) {
+//            // Get a random Restaurant POJO
+//            Restaurant restaurant = RestaurantUtil.getRandom(this);
+//
+//            // Add a new document to the restaurants collection
+//            restaurants.add(restaurant);
+//        }
     }
 
     @Override
     public void onFilter(Filters filters) {
-       // Construct query basic query
+        // Construct query basic query
 //        Query query = mFirestore.collection("restaurants");
 //
 //        // Cateogory (equality filter)
@@ -256,10 +254,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRestaurantSelected(DocumentSnapshot restaurant) {
+    public void onRestaurantSelected(DocumentSnapshot league) {
         // Go to the details page for the selected restaurant
-        Intent intent = new Intent(this, RestaurantDetailActivity.class);
-        intent.putExtra(RestaurantDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
+        Intent intent = new Intent(this, ActivityMatches.class);
+        intent.putExtra(KEY_LEAGUE_ID, league.getId());
 
         startActivity(intent);
     }
@@ -278,9 +276,5 @@ public class MainActivity extends AppCompatActivity implements
 
         startActivityForResult(intent, RC_SIGN_IN);
         mViewModel.setIsSigningIn(true);
-    }
-
-    private void showTodoToast() {
-        Toast.makeText(this, "TODO: Implement", Toast.LENGTH_SHORT).show();
     }
 }

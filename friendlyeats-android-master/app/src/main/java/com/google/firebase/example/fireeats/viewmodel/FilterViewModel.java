@@ -23,12 +23,12 @@ import com.google.firebase.example.fireeats.Filters;
  * ViewModel for {@link com.google.firebase.example.fireeats.MainActivity}.
  */
 
-public class MainActivityViewModel extends ViewModel {
+public class FilterViewModel extends ViewModel {
 
     private boolean mIsSigningIn;
     private Filters mFilters;
 
-    public MainActivityViewModel() {
+    public FilterViewModel() {
         mIsSigningIn = false;
         mFilters = Filters.getDefault();
     }

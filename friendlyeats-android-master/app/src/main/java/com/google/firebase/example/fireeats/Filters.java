@@ -22,9 +22,6 @@ import com.google.firebase.example.fireeats.model.Restaurant;
 import com.google.firebase.example.fireeats.util.RestaurantUtil;
 import com.google.firebase.firestore.Query;
 
-/**
- * Object for passing filters around.
- */
 public class Filters {
 
     private String category = null;
